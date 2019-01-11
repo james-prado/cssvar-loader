@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const SlateConfig = require('@shopify/slate-config');
 const config = new SlateConfig(require('./cssvar-loader.schema'));
+const argv = require('minimist')(process.argv.slice(2));
 
 const STYLE_BLOCK_REGEX = /(?:<style>|\{%-? style -?%\})([\S\s]*?)(?:<\/style>|\{%-? endstyle -?%\})/g;
 const CSS_VAR_FUNC_REGEX = /var\(--(.*?)\)/g;
@@ -53,7 +54,7 @@ function SlateCSSLoader(source) {
 
     const settingsVariable = cssVariable.replace(/-/g, '_')
 
-    return settings['current'][settingsVariable];
+    return settings['presets'][argv.presets][settingsVariable];
   });
 }
 
